@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llamada API con Basic Auth</title>
+</head>
+<body>
+    <h1>Consumir API con Basic Auth</h1>
+    
+    <button id="callApiButton">Llamar al Servicio</button>
+    
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("callApiButton").addEventListener("click", function() {
+            // Credenciales para autenticación básica (reemplazar con tus datos)
+            const username = 'admin';  // Reemplaza con tu usuario
+            const password = 'admin123';  // Reemplaza con tu contraseñ
+
+            // Codificar las credenciales en Base64
+            const credentials = btoa(`${username}:${password}`);
+
+            // Realizar la solicitud usando Fetch API
+            fetch("http://localhost:8989/api/srcgenerica", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Basic ${credentials}`,  // Encabezado de autorización
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error en la solicitud: ${response.status}`);
+                }
+
+      
+                
+
+
+
+                return response.json();  // Si la respuesta es JSON
+
+               
+            })
+            .then(data => {
+                // Mostrar los resultados en la página
+                document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("result").innerText = "Error en la llamada a la API: " + error.message +  " cath: " + error.catch;
+            }); 
+        });
+    </script>
+</body>
+</html>
